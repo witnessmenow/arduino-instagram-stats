@@ -6,6 +6,8 @@
  *  https://www.youtube.com/channel/UCezJOfu7OtqGzd5xrP3q6WA
  *******************************************************************/
 
+#include "InstagramStats.h"
+
  // ----------------------------
  // Standard Libraries - Already Installed if you have ESP32 set up
  // ----------------------------
@@ -17,8 +19,10 @@
 // Additional Libraries - each one of these will need to be installed.
 // ----------------------------
 
-#include "InstagramStats.h"
 #include "JsonStreamingParser.h"
+// Used to parse the Json code within the library
+// Available on the library manager (Search for "Json Streamer Parser")
+// https://github.com/squix78/json-streaming-parser
 
 //------- Replace the following! ------
 char ssid[] = "SSID";       // your network SSID (name)
