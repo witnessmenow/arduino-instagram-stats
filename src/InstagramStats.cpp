@@ -105,12 +105,16 @@ InstagramUserStats InstagramStats::getUserStats(String user) {
   Serial.println("starting getUserStats function");
   JsonStreamingParser parser;
   InstagramUserListener listener;
+  currentKey = "";
+  currentParent = "";
   userStatsResponse = InstagramUserStats();
   parser.setListener(&listener);
 
   long now;
   // Connect to Instagram over ssl
-  if (connectClient()) {
+
+  // It's failing to connect ever second time on version 2.3 of ESP8266, so lets try this knonsense
+  if (client->connect(INSTA_HOST, INSTA_SSL_PORT) || client->connect(INSTA_HOST, INSTA_SSL_PORT)) {
     Serial.println(".... connected to server");
 
     client->println("GET /" + user + "/?__a=1 HTTP/1.1");
@@ -121,6 +125,9 @@ InstagramUserStats InstagramStats::getUserStats(String user) {
     while (millis() - now < 3000) {
       while (client->available()) {
         char c = client->read();
+
+        // Serial.print(c);
+
         // parsing code:
         // most of the work happens in the header code
         // at the top of this file

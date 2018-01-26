@@ -65,7 +65,7 @@ void getInstagramStatsForUser() {
   InstagramUserStats response = instaStats.getUserStats(userName);
   Serial.println("Response:");
   Serial.print("Number of followers: ");
-  Serial.print(response.followedByCount);
+  Serial.println(response.followedByCount);
 }
 
 void loop() {
