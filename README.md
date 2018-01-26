@@ -11,18 +11,18 @@ The API is [pretty complicated to get access tokens for](https://medium.com/@bkw
 
 ## Currently Supports:
 
-### User Data
+#### User Data
 - Follower Count
 
 
 ## Supported Boards:
 
-### Tested Boards:
+#### Tested Boards:
 - ESP8266
 - ESP32
 
 ### Should/Could Work:
 - WiFi101 Boards (MKR1000 etc)
 
-### Won't Work
+#### Won't Work
 - Ethernet Shields (they do not support HTTPS)
