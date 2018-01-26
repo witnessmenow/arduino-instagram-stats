@@ -1,7 +1,6 @@
 /*******************************************************************
  *  An example of usisng the InstagramStats library to get
  *  info on a given user.
- *  route
  *
  *  Written by Brian Lough
  *  https://www.youtube.com/channel/UCezJOfu7OtqGzd5xrP3q6WA
