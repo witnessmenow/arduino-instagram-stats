@@ -6,18 +6,18 @@ The API is pretty complicated to get access tokens for but found some informatio
 
 ## Currently Supports:
 
-### User Data
+#### User Data
 - Follower Count
 
 
 ## Supported Boards:
 
-### Tested Boards:
+#### Tested Boards:
 - ESP8266
 
-### Should/Could Work:
+#### Should/Could Work:
 - ESP32
 - WiFi101 Boards (MKR1000 etc)
 
-### Won't Work
+#### Won't Work
 - Ethernet Shields (they do not support HTTPS)
