@@ -11,7 +11,7 @@ The API is [pretty complicated to get access tokens for](https://medium.com/@bkw
 
 ## Installation
 
-Install from the Arduino Library Manager or download the Zip from here and add that way
+Install from the Arduino Library Manager or download the Zip from here and add that way.
 
 Requires [Json Streamer Parser by squix78](https://github.com/squix78/json-streaming-parser), which can also be installed from the library manager.
 
