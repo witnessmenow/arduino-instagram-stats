@@ -9,8 +9,8 @@ cache:
         - "~/.platformio"
 
 env:
-    - SCRIPT=platformioSingle EXAMPLE_NAME=UserData EXAMPLE_FOLDER=/ BOARDTYPE=ESP8266 BOARD=d1_mini
-    - SCRIPT=platformioSingle EXAMPLE_NAME=UserData EXAMPLE_FOLDER=/ BOARDTYPE=ESP32 BOARD=lolin32
+    - SCRIPT=platformioSingle EXAMPLE_NAME=UserData EXAMPLE_FOLDER=/ BOARDTYPE=esp8266 BOARD=d1_mini
+    - SCRIPT=platformioSingle EXAMPLE_NAME=UserData EXAMPLE_FOLDER=/ BOARDTYPE=esp32 BOARD=lolin32
 
 
 install:
