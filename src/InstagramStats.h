@@ -41,10 +41,10 @@ class InstagramStats {
  public:
   InstagramStats(Client &client);
   InstagramUserStats getUserStats(String user);
+  bool _debug = false;
 
  private:
   Client *client;
-  bool connectClient();
   void closeClient();
 };
 #endif

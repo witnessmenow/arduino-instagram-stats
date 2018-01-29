@@ -102,7 +102,7 @@ InstagramStats::InstagramStats(Client& client) {
 }
 
 InstagramUserStats InstagramStats::getUserStats(String user) {
-  Serial.println("starting getUserStats function");
+  if (_debug) Serial.println("starting getUserStats function");
   JsonStreamingParser parser;
   InstagramUserListener listener;
   currentKey = "";
@@ -115,7 +115,7 @@ InstagramUserStats InstagramStats::getUserStats(String user) {
 
   // It's failing to connect ever second time on version 2.3 of ESP8266, so lets try this knonsense
   if (client->connect(INSTA_HOST, INSTA_SSL_PORT) || client->connect(INSTA_HOST, INSTA_SSL_PORT)) {
-    Serial.println(".... connected to server");
+    if (_debug) Serial.println(".... connected to server");
 
     client->println("GET /" + user + "/?__a=1 HTTP/1.1");
     client->print("Host:"); client->println(INSTA_HOST);
@@ -126,7 +126,7 @@ InstagramUserStats InstagramStats::getUserStats(String user) {
       while (client->available()) {
         char c = client->read();
 
-        // Serial.print(c);
+        if (_debug) Serial.print(c);
 
         // parsing code:
         // most of the work happens in the header code
@@ -137,7 +137,7 @@ InstagramUserStats InstagramStats::getUserStats(String user) {
         // as the library is expanded to include more info this will connected
         // to change.
         if (userStatsResponse.followedByCount > 0) {
-          // Serial.println("finished");
+          if (_debug) Serial.println("finished");
           closeClient();
           return userStatsResponse;
         }
@@ -146,15 +146,6 @@ InstagramUserStats InstagramStats::getUserStats(String user) {
   }
   closeClient();
   return userStatsResponse;
-}
-
-bool InstagramStats::connectClient() {
-  if(!client->connected()){
-    return client->connect(INSTA_HOST, INSTA_SSL_PORT);
-  } else {
-    // Already Connected
-    return true;
-  }
 }
 
 void InstagramStats::closeClient() {
