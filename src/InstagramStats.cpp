@@ -66,7 +66,7 @@ void InstagramUserListener::key(String key) {
 }
 
 void InstagramUserListener::value(String value) {
-  if (currentParent == "followed_by") {
+  if (currentParent == "edge_followed_by") {
     if (currentKey == "count") {
       userStatsResponse.followedByCount = value.toInt();
     }
