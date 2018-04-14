@@ -110,6 +110,11 @@ InstagramUserStats InstagramStats::getUserStats(String user) {
   userStatsResponse = InstagramUserStats();
   parser.setListener(&listener);
 
+  String sharedDataBuffer;
+  sharedDataBuffer.reserve(20);
+  String sharedData = "window._sharedData = ";
+  bool sharedDataFound = false;
+
   long now;
   // Connect to Instagram over ssl
 
@@ -117,7 +122,7 @@ InstagramUserStats InstagramStats::getUserStats(String user) {
   if (client->connect(INSTA_HOST, INSTA_SSL_PORT) || client->connect(INSTA_HOST, INSTA_SSL_PORT)) {
     if (_debug) Serial.println(".... connected to server");
 
-    client->println("GET /" + user + "/?__a=1 HTTP/1.1");
+    client->println("GET /" + user + "/ HTTP/1.1");
     client->print("Host:"); client->println(INSTA_HOST);
     client->println();
 
@@ -126,12 +131,24 @@ InstagramUserStats InstagramStats::getUserStats(String user) {
       while (client->available()) {
         char c = client->read();
 
+
         if (_debug) Serial.print(c);
 
-        // parsing code:
-        // most of the work happens in the header code
-        // at the top of this file
-        parser.parse(c);
+        if(!sharedDataFound) {
+          sharedDataBuffer = sharedDataBuffer + c;
+          if(sharedData.indexOf(sharedDataBuffer) == 0 ){
+            if (sharedData.length() == sharedDataBuffer.length()){
+              sharedDataFound = true;
+            }
+          } else {
+            sharedDataBuffer = "";
+          }
+        } else {
+          // parsing code:
+          // most of the work happens in the header code
+          // at the top of this file
+          parser.parse(c);
+        }
 
         // This is the check to see if you have everything you connected
         // as the library is expanded to include more info this will connected
