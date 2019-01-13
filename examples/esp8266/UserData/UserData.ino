@@ -8,9 +8,9 @@
 
 #include "InstagramStats.h"
 
- // ----------------------------
- // Standard Libraries - Already Installed if you have ESP8266 set up
- // ----------------------------
+// ----------------------------
+// Standard Libraries - Already Installed if you have ESP8266 set up
+// ----------------------------
 
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecure.h>
@@ -25,8 +25,8 @@
 // https://github.com/squix78/json-streaming-parser
 
 //------- Replace the following! ------
-char ssid[] = "SSID";       // your network SSID (name)
-char password[] = "PASSWORD";  // your network key
+char ssid[] = "SSID";         // your network SSID (name)
+char password[] = "PASSWORD"; // your network key
 
 WiFiClientSecure client;
 InstagramStats instaStats(client);
@@ -37,8 +37,8 @@ unsigned long whenDueToCheck = 0;
 //Inputs
 String userName = "brian_lough"; // from their instagram url https://www.instagram.com/brian_lough/
 
-
-void setup() {
+void setup()
+{
 
   Serial.begin(115200);
 
@@ -52,7 +52,8 @@ void setup() {
   Serial.print("Connecting Wifi: ");
   Serial.println(ssid);
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED)
+  {
     Serial.print(".");
     delay(500);
   }
@@ -61,19 +62,25 @@ void setup() {
   Serial.println("IP address: ");
   IPAddress ip = WiFi.localIP();
   Serial.println(ip);
+
+  // If using ESP8266 Core 2.5 RC, uncomment the following
+  // client.setInsecure();
 }
 
-void getInstagramStatsForUser() {
-  Serial.println("Getting instagram user stats for " + userName );
+void getInstagramStatsForUser()
+{
+  Serial.println("Getting instagram user stats for " + userName);
   InstagramUserStats response = instaStats.getUserStats(userName);
   Serial.println("Response:");
   Serial.print("Number of followers: ");
   Serial.println(response.followedByCount);
 }
 
-void loop() {
+void loop()
+{
   unsigned long timeNow = millis();
-  if ((timeNow > whenDueToCheck))  {
+  if ((timeNow > whenDueToCheck))
+  {
     getInstagramStatsForUser();
     whenDueToCheck = timeNow + delayBetweenChecks;
   }
