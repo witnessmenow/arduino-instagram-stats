@@ -13,30 +13,24 @@
  // ----------------------------
 
 #include <WiFi.h>
-#include <WiFiClientSecure.h>
+#include <WiFiClientSecureBearSSL.h>
 
 // ----------------------------
 // Additional Libraries - each one of these will need to be installed.
 // ----------------------------
 
-#include "JsonStreamingParser.h"
-// Used to parse the Json code within the library
-// Available on the library manager (Search for "Json Streamer Parser")
-// https://github.com/squix78/json-streaming-parser
-
 //------- Replace the following! ------
 char ssid[] = "SSID";       // your network SSID (name)
 char password[] = "PASSWORD";  // your network key
 
+String INSTAGRAM_ACCESS_TOKEN = "ENTER_YOUR_APP_TOKEN";
+String IG_USER_ID = "ENTER_YOUR_IG_USER_ID";
+
 WiFiClientSecure client;
-InstagramStats instaStats(client);
+InstagramStats instaStats(client, INSTAGRAM_ACCESS_TOKEN, IG_USER_ID);
 
 unsigned long delayBetweenChecks = 60000; //mean time between api requests
 unsigned long whenDueToCheck = 0;
-
-//Inputs
-String userName = "brian_lough"; // from their instagram url https://www.instagram.com/brian_lough/
-
 
 void setup() {
 
@@ -48,6 +42,10 @@ void setup() {
 
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
+
+  //Set client insecure for https connections
+  client.setInsecure();
+  
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print(".");
     delay(500);
@@ -60,11 +58,11 @@ void setup() {
 }
 
 void getInstagramStatsForUser() {
-  Serial.println("Getting instagram user stats for " + userName );
-  InstagramUserStats response = instaStats.getUserStats(userName);
+  Serial.println("Getting instagram user stats for " + IG_USER_ID);
+  int instaFollowersCount = instaStats.getFollowersCount(IG_USER_ID);
   Serial.println("Response:");
   Serial.print("Number of followers: ");
-  Serial.println(response.followedByCount);
+  Serial.println(instaFollowersCount);
 }
 
 void loop() {

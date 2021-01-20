@@ -2,7 +2,7 @@
  *  An example of usisng the InstagramStats library to get
  *  info on a given user.
  *
- *  Written by Brian Lough
+ *  Written by Brian Lough and updated by Adrian Pecker
  *  https://www.youtube.com/channel/UCezJOfu7OtqGzd5xrP3q6WA
  *******************************************************************/
 
@@ -13,29 +13,24 @@
 // ----------------------------
 
 #include <ESP8266WiFi.h>
-#include <WiFiClientSecure.h>
+#include <WiFiClientSecureBearSSL.h>
 
 // ----------------------------
 // Additional Libraries - each one of these will need to be installed.
 // ----------------------------
 
-#include "JsonStreamingParser.h"
-// Used to parse the Json code within the library
-// Available on the library manager (Search for "Json Streamer Parser")
-// https://github.com/squix78/json-streaming-parser
-
 //------- Replace the following! ------
-char ssid[] = "SSID";         // your network SSID (name)
-char password[] = "PASSWORD"; // your network key
+char ssid[] = "xxx";         // your network SSID (name)
+char password[] = "yyyy"; // your network key
+
+String INSTAGRAM_ACCESS_TOKEN = "ENTER_YOUR_APP_TOKEN";
+String IG_USER_ID = "ENTER_YOUR_IG_USER_ID";
 
 WiFiClientSecure client;
-InstagramStats instaStats(client);
+InstagramStats instaStats(client, INSTAGRAM_ACCESS_TOKEN, IG_USER_ID);
 
 unsigned long delayBetweenChecks = 60000; //mean time between api requests
 unsigned long whenDueToCheck = 0;
-
-//Inputs
-String userName = "brian_lough"; // from their instagram url https://www.instagram.com/brian_lough/
 
 void setup()
 {
@@ -52,6 +47,10 @@ void setup()
   Serial.print("Connecting Wifi: ");
   Serial.println(ssid);
   WiFi.begin(ssid, password);
+
+  //Set client insecure for https connections
+  client.setInsecure();
+  
   while (WiFi.status() != WL_CONNECTED)
   {
     Serial.print(".");
@@ -67,13 +66,13 @@ void setup()
   // client.setInsecure();
 }
 
-void getInstagramStatsForUser()
+void getInstagramFollowersForUser()
 {
-  Serial.println("Getting instagram user stats for " + userName);
-  InstagramUserStats response = instaStats.getUserStats(userName);
+  Serial.println("Getting instagram user stats for " + IG_USER_ID);
+  int instaFollowersCount = instaStats.getFollowersCount(IG_USER_ID);
   Serial.println("Response:");
   Serial.print("Number of followers: ");
-  Serial.println(response.followedByCount);
+  Serial.println(instaFollowersCount);
 }
 
 void loop()
@@ -81,7 +80,7 @@ void loop()
   unsigned long timeNow = millis();
   if ((timeNow > whenDueToCheck))
   {
-    getInstagramStatsForUser();
+    getInstagramFollowersForUser();
     whenDueToCheck = timeNow + delayBetweenChecks;
   }
 }
