@@ -105,18 +105,16 @@ int InstagramStats::getFollowersCount(String igUserId) {
 
 	if (_debug) Serial.println(response);
 
-  DynamicJsonBuffer jsonBuffer;
-	JsonObject& root = jsonBuffer.parseObject(response);
-
-	if(root.success()) {
-		if(root.containsKey("followers_count")) {
-			return root["followers_count"].as<int>();
-		} else {
-			Serial.println("JSON response was not as expected");
-		}
-  }	else {
-		Serial.println("Failed to parse JSON");
-	}
+  DynamicJsonDocument doc(1024);
+  auto error = deserializeJson(doc,response);
+        if (error) {
+        Serial.print(F("deserializeJson() failed with code "));
+        Serial.println(error.c_str());
+        } 
+        else {
+        Serial.println("JSON parsing worked!"); 
+        return doc["followers_count"].as<int>();
+        }
   return -1;
 }
 
