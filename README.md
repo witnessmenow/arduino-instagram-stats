@@ -10,7 +10,8 @@ This library is getting the data directly from Instagram, and it is now using th
 In order to retrieve the needed token and ig-user-id you can check here: https://www.youtube.com/watch?v=9UCyRyJyZAo
 
 ## Changelog
-### Version 1.0
+### Version 1.1
++ Using facebook API
 + (Eisbaeeer 20210120)
 + updated lib to ArduinoJson Version 6
 
