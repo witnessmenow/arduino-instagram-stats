@@ -25,26 +25,26 @@ https://twitter.com/witnessmenow
 #define InstagramStats_h
 
 #include <Arduino.h>
+#include <ArduinoJson.h>
 #include <Client.h>
 
-#include "JsonListener.h"
-#include "JsonStreamingParser.h"
-
-#define INSTA_HOST "www.instagram.com"
+#define INSTA_HOST "graph.facebook.com"
 #define INSTA_SSL_PORT 443
+#define INSTA_TIMEOUT 1500
 
-struct InstagramUserStats {
-  int followedByCount;
-};
 
 class InstagramStats {
  public:
-  InstagramStats(Client &client);
-  InstagramUserStats getUserStats(String user);
+  InstagramStats(Client &client, String accessToken, String igUserId);
+  int getFollowersCount(String igUserId);
+  String sendGetToInstagram(String command);
   bool _debug = false;
 
  private:
-  Client *client;
+   Client *client;
+   String _igUserId;
+   String _accessToken;
+   const int maxMessageLength = 10000;
   void closeClient();
 };
 #endif
